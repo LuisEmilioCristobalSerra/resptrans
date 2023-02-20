@@ -2,8 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CountryController;
-
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +19,4 @@ use App\Http\Controllers\CountryController;
 //     return $request->user();
 // });
 
-Route::apiResource('countries', CountryController::class);
+Route::apiResource('employees', EmployeeController::class);

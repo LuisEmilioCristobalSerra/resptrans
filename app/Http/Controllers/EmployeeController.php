@@ -2,53 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\JsonResponse;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return JsonResponse::sendResponse(Employee::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $employee = Employee::create($request->only([
+            'name',
+            'paternal_surname',
+            'maternal_surname',
+            'email',
+            'phone',
+            'workstation',
+        ]));
+        return JsonResponse::sendResponse($employee);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
-     */
     public function show(Employee $employee)
     {
-        //
+        return JsonResponse::sendResponse($employee);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $employee->update($request->only([
+            'name',
+            'paternal_surname',
+            'maternal_surname',
+            'email',
+            'phone',
+            'workstation',
+        ]));
+        return response()->noContent();
     }
 
     /**
@@ -59,6 +52,7 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+        return response()->noContent();
     }
 }
