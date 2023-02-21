@@ -17,4 +17,9 @@ class Employee extends Model
         'phone',
         'workstation',
     ];
+
+    public function subsidiaries()
+    {
+        return $this->belongsToMany(Subsidiary::class, 'assign_subsidiaries')->as('subsidiaries_assigned')->using(AssignSubsidiary::class);
+    }
 }

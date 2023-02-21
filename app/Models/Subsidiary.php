@@ -17,4 +17,9 @@ class Subsidiary extends Model
         'district',
         'postal_code',
     ];
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class, 'assign_subsidiaries')->as('employees')->using(AssignSubsidiary::class);
+    }
 }

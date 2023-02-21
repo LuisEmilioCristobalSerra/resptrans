@@ -10,7 +10,7 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        return JsonResponse::sendResponse(Employee::all());
+        return JsonResponse::sendResponse(Employee::with('subsidiaries')->get());
     }
 
     public function store(Request $request)
@@ -23,12 +23,15 @@ class EmployeeController extends Controller
             'phone',
             'workstation',
         ]));
+        $request->whenHas('subsidiary_ids', function($subsidiaryIds) use ($employee) {
+            $employee->subsidiaries()->sync($subsidiaryIds);
+        });
         return JsonResponse::sendResponse($employee);
     }
 
     public function show(Employee $employee)
     {
-        return JsonResponse::sendResponse($employee);
+        return JsonResponse::sendResponse($employee->load('subsidiaries'));
     }
 
     public function update(Request $request, Employee $employee)
@@ -41,6 +44,9 @@ class EmployeeController extends Controller
             'phone',
             'workstation',
         ]));
+        $request->whenHas('subsidiary_ids', function($subsidiaryIds) use ($employee) {
+            $employee->subsidiaries()->sync($subsidiaryIds);
+        });
         return response()->noContent();
     }
 
