@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SubsidiaryController;
 
 /*
@@ -22,3 +23,4 @@ use App\Http\Controllers\SubsidiaryController;
 
 Route::apiResource('employees', EmployeeController::class);
 Route::apiResource('subsidiaries', SubsidiaryController::class);
+Route::apiResource('items', ItemController::class);

@@ -4,61 +4,54 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use App\Helpers\JsonResponse;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return JsonResponse::sendResponse(Item::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $model = Item::create($request->only([
+            'name',
+            'description',
+            'code',
+            'serial',
+            'invoice',
+            'oc',
+            'bought_at',
+        ]));
+        return JsonResponse::sendResponse($model);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Item $item)
+    public function show(int $id)
     {
-        //
+        $model = Item::find($id);
+        return JsonResponse::sendResponse($model);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Item $item)
+    public function update(int $id, Request $request)
     {
-        //
+        $model = Item::find($id);
+        $model->update($request->only([
+            'name',
+            'description',
+            'code',
+            'serial',
+            'invoice',
+            'oc',
+            'bought_at',
+        ]));
+        return response()->noContent();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Item $item)
+    public function destroy(int $id)
     {
-        //
+        $model = Item::find($id);
+        $model->delete();
+        return response()->noContent();
     }
 }
