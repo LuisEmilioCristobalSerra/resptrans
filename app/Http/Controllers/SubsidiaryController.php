@@ -4,61 +4,52 @@ namespace App\Http\Controllers;
 
 use App\Models\Subsidiary;
 use Illuminate\Http\Request;
+use App\Helpers\JsonResponse;
 
 class SubsidiaryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return JsonResponse::sendResponse(Subsidiary::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $model = Subsidiary::create($request->only([
+            'name',
+            'street',
+            'interior',
+            'exterior',
+            'district',
+            'postal_code',
+        ]));
+        return JsonResponse::sendResponse($model);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Subsidiary  $subsidiary
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Subsidiary $subsidiary)
+    public function show(int $id)
     {
-        //
+        $model = Subsidiary::find($id);
+        return JsonResponse::sendResponse($model);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Subsidiary  $subsidiary
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Subsidiary $subsidiary)
+    public function update(int $id, Request $request)
     {
-        //
+        $model = Subsidiary::find($id);
+        $model->update($request->only([
+            'name',
+            'street',
+            'interior',
+            'exterior',
+            'district',
+            'postal_code',
+        ]));
+        return response()->noContent();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Subsidiary  $subsidiary
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Subsidiary $subsidiary)
+    public function destroy(int $id)
     {
-        //
+        $model = Subsidiary::find($id);
+        $model->delete();
+        return response()->noContent();
     }
 }

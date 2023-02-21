@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Subsidiary extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'street',
+        'interior',
+        'exterior',
+        'district',
+        'postal_code',
+    ];
 }
