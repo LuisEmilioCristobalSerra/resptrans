@@ -24,3 +24,7 @@ use App\Http\Controllers\SubsidiaryController;
 Route::apiResource('employees', EmployeeController::class);
 Route::apiResource('subsidiaries', SubsidiaryController::class);
 Route::apiResource('items', ItemController::class);
+
+Route::post('subsidiaries/{id}/inventory', [SubsidiaryController::class, 'addItems']);
+Route::get('subsidiaries/{id}/inventory', [SubsidiaryController::class, 'inventory']);
+Route::delete('subsidiaries/{id}/inventory/{itemId}', [SubsidiaryController::class, 'removeItem']);

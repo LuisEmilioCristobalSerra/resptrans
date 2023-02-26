@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\Inventory;
 use App\Models\Subsidiary;
 use Illuminate\Http\Request;
 use App\Helpers\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class SubsidiaryController extends Controller
 {
@@ -51,5 +54,28 @@ class SubsidiaryController extends Controller
         $model = Subsidiary::find($id);
         $model->delete();
         return response()->noContent();
+    }
+
+    public function addItems(Request $request, int $id)
+    {
+        try {
+            Log::info($request->item_ids);
+            foreach ($request->item_ids as $itemId) {
+                Inventory::firstOrCreate(['item_id' => $itemId, 'subsidiary_id' => $id]);
+            }
+            return JsonResponse::sendResponse([]);
+        } catch (Exception $e) {
+            return JsonResponse::sendError("Ha ocurrido un error al registrar los artículos en la sucursal", 500);
+        }
+    }
+
+    public function inventory(int $id)
+    {
+        return JsonResponse::sendResponse(Subsidiary::query()->find($id)->inventoryItems()->with('item')->get());
+    }
+
+    public function removeItem(int $id, int $itemId)
+    {
+        return JsonResponse::sendResponse(Subsidiary::query()->find($id)->inventoryItems()->where('item_id', $itemId)->delete());
     }
 }

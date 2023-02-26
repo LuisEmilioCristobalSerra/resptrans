@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,6 +21,11 @@ class Subsidiary extends Model
 
     public function employees()
     {
-        return $this->belongsToMany(Employee::class, 'assign_subsidiaries')->as('employees')->using(AssignSubsidiary::class);
+        return $this->belongsToMany(Employee::class, 'assign_subsidiaries')->using(AssignSubsidiary::class);
+    }
+
+    public function inventoryItems()
+    {
+        return Inventory::query()->where('subsidiary_id', $this->id);
     }
 }

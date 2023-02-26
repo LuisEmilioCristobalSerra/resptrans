@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Helpers\JsonResponse;
+use Illuminate\Database\Eloquent\Builder;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return JsonResponse::sendResponse(Item::all());
+        $results = Item::query()->when($request->search, function (Builder $query, string $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        })->get();
+        return JsonResponse::sendResponse($results);
     }
 
     public function store(Request $request)
