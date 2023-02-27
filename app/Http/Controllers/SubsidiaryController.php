@@ -8,12 +8,16 @@ use App\Models\Subsidiary;
 use Illuminate\Http\Request;
 use App\Helpers\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Builder;
 
 class SubsidiaryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return JsonResponse::sendResponse(Subsidiary::all());
+        $rows = Subsidiary::query()->when($request->search, function (Builder $query, string $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        });
+        return JsonResponse::sendResponse($rows->get());
     }
 
     public function store(Request $request)

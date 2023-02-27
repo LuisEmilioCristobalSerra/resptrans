@@ -22,6 +22,6 @@ class Employee extends Model
 
     public function subsidiaries()
     {
-        return $this->belongsToMany(Subsidiary::class, 'assign_subsidiaries')->as('subsidiaries_assigned')->using(AssignSubsidiary::class);
+        return $this->belongsToMany(Subsidiary::class, 'assign_subsidiaries')->withPivot('id')->using(AssignSubsidiary::class);
     }
 }
