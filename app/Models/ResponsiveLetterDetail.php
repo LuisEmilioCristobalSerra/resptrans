@@ -18,4 +18,9 @@ class ResponsiveLetterDetail extends Model
     {
         return $this->belongsTo(ResponsiveLetter::class);
     }
+
+    public function inventoryItemPivot()
+    {
+        return $this->belongsTo(Inventory::class, 'inventory_item_id', 'id');
+    }
 }

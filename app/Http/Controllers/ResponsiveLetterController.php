@@ -7,6 +7,7 @@ use App\Models\Inventory;
 use App\Models\Subsidiary;
 use Illuminate\Http\Request;
 use App\Helpers\JsonResponse;
+use App\Http\Resources\ResponsiveLetterResource;
 use App\Models\ResponsiveLetter;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +15,9 @@ class ResponsiveLetterController extends Controller
 {
     public function index()
     {
-        return JsonResponse::sendResponse(ResponsiveLetter::all());
+        $rows = ResponsiveLetter::query()->with(['subsidiaryEmployeePivot.subsidiary', 'subsidiaryEmployeePivot.employee', 'user', 'details.inventoryItemPivot.item'])->get();
+        // return JsonResponse::sendResponse($rows);
+        return JsonResponse::sendResponse(ResponsiveLetterResource::collection($rows));
     }
 
     public function store(Request $request)

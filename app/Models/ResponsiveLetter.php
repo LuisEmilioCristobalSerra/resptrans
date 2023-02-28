@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class ResponsiveLetter extends Model
 {
@@ -22,5 +23,15 @@ class ResponsiveLetter extends Model
     public function employee()
     {
         return AssignSubsidiary::query()->where('id', 'assign_subsidiary_id')->first();
+    }
+
+    public function subsidiaryEmployeePivot()
+    {
+        return $this->hasOne(SubsidiaryAssigned::class, 'id', 'assign_subsidiary_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
