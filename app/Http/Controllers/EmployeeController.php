@@ -6,6 +6,8 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Helpers\JsonResponse;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\ResponsiveLetterDetailItem;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeController extends Controller
 {
@@ -78,10 +80,18 @@ class EmployeeController extends Controller
         $subsidiaryEmployee = Employee::query()->find($id)->subsidiaries()->where('subsidiary_id', $request->subsidiary_id)->first();
         $responsive = $subsidiaryEmployee->pivot->createResponsive();
         foreach ($request->details as $detail) {
-            $responsive->details()->create([
+            $detailCreated = $responsive->details()->create([
                 'inventory_item_id' => $detail['inventory_item_id'],
                 'quantity' => $detail['quantity'],
             ]);
+            foreach ($detail['items'] as $item) {
+                ResponsiveLetterDetailItem::create([
+                    'responsive_letter_detail_id' => $detailCreated->id,
+                    'code' => $item['code'],
+                    'serial' => $item['serial'],
+                    'oc' => $item['oc'],
+                ]);
+            }
         }
         return JsonResponse::sendResponse($responsive->load('details'));
     }

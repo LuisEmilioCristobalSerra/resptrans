@@ -15,8 +15,7 @@ class ResponsiveLetterController extends Controller
 {
     public function index()
     {
-        $rows = ResponsiveLetter::query()->with(['subsidiaryEmployeePivot.subsidiary', 'subsidiaryEmployeePivot.employee', 'user', 'details.inventoryItemPivot.item'])->get();
-        // return JsonResponse::sendResponse($rows);
+        $rows = ResponsiveLetter::query()->with(['subsidiaryEmployeePivot.subsidiary', 'subsidiaryEmployeePivot.employee', 'user', 'details.inventoryItemPivot.item', 'details.items'])->get();
         return JsonResponse::sendResponse(ResponsiveLetterResource::collection($rows));
     }
 

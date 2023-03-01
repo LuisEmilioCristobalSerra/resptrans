@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Log;
 
 class ResponsiveLetterDetailResource extends JsonResource
 {
@@ -26,6 +27,7 @@ class ResponsiveLetterDetailResource extends JsonResource
             "created_at" => $this->inventoryItemPivot->item->created_at,
             "updated_at" => $this->inventoryItemPivot->item->updated_at,
             "quantity" => $this->quantity,
+            "items" => $this->items,
         ];
     }
 }

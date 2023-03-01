@@ -23,4 +23,9 @@ class ResponsiveLetterDetail extends Model
     {
         return $this->belongsTo(Inventory::class, 'inventory_item_id', 'id');
     }
+
+    public function items()
+    {
+        return $this->hasMany(ResponsiveLetterDetailItem::class);
+    }
 }
