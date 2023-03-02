@@ -12,10 +12,6 @@ class Item extends Model
     protected $fillable = [
         'name',
         'description',
-        'code',
-        'serial',
-        'invoice',
-        'oc',
         'bought_at',
     ];
 }

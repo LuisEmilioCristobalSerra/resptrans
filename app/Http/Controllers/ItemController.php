@@ -22,10 +22,6 @@ class ItemController extends Controller
         $model = Item::create($request->only([
             'name',
             'description',
-            'code',
-            'serial',
-            'invoice',
-            'oc',
             'bought_at',
         ]));
         return JsonResponse::sendResponse($model);
@@ -43,10 +39,6 @@ class ItemController extends Controller
         $model->update($request->only([
             'name',
             'description',
-            'code',
-            'serial',
-            'invoice',
-            'oc',
             'bought_at',
         ]));
         return response()->noContent();
