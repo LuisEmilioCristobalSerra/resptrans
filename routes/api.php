@@ -6,6 +6,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ResponsiveLetterController;
 use App\Http\Controllers\SubsidiaryController;
+use App\Http\Controllers\TransferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,5 @@ Route::get('responsives', [ResponsiveLetterController::class, 'index']);
 Route::get('employees/{id}/subsidiaries', [EmployeeController::class, 'subsidiaries']);
 
 Route::post('employees/{id}/responsives', [EmployeeController::class, 'generateResponsive']);
+
+Route::post('transfers', [TransferController::class, 'store']);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInfortationTransfersTable extends Migration
+class CreateInformationTransfersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateInfortationTransfersTable extends Migration
      */
     public function up()
     {
-        Schema::create('infortation_transfers', function (Blueprint $table) {
+        Schema::create('information_transfers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('inventory_id')->constrained();
             $table->foreignId('transfer_id')->constrained();
+            $table->unsignedBigInteger('inventory_item_id');
+            $table->foreign('inventory_item_id', 'inventory_item_to_information_transfers')->references('id')->on('inventories');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateInfortationTransfersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('infortation_transfers');
+        Schema::dropIfExists('information_transfers');
     }
 }

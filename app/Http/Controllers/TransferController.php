@@ -4,61 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\Transfer;
 use Illuminate\Http\Request;
+use App\Helpers\JsonResponse;
+use App\Models\InformationTransferDetail;
 
 class TransferController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        // $rows = Transfer::query()->with(['subsidiaryEmployeePivot.subsidiary', 'subsidiaryEmployeePivot.employee', 'user', 'details.inventoryItemPivot.item', 'details.items'])->get();
+        // return JsonResponse::sendResponse(ResponsiveLetterResource::collection($rows));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Transfer  $transfer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Transfer $transfer)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Transfer  $transfer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Transfer $transfer)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Transfer  $transfer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Transfer $transfer)
-    {
-        //
+        $transfer = Transfer::create([
+            'user_id' => 1,
+            'origin_id' => $request->origin_id,
+            'target_id' => $request->target_id,
+        ]);
+        foreach ($request->details as $requestDetail) {
+            $detail = $transfer->details()->create([
+                'inventory_item_id' => $requestDetail['inventory_item_id'],
+                'quantity' => $requestDetail['quantity'],
+            ]);
+            foreach ($requestDetail['items'] as $item) {
+                InformationTransferDetail::create([
+                    'information_transfer_id' => $detail->id,
+                    'code' => $item['code'],
+                    'serial' => $item['serial'],
+                    'oc' => $item['oc'],
+                ]);
+            }
+        }
+        return JsonResponse::sendResponse($transfer->load('details'));
     }
 }
