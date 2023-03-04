@@ -21,31 +21,31 @@ use App\Http\Controllers\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::post('auth/login', [AuthController::class, 'login']);
 
-Route::apiResource('employees', EmployeeController::class);
-Route::apiResource('subsidiaries', SubsidiaryController::class);
-Route::apiResource('items', ItemController::class);
-Route::apiResource('users', UserController::class);
-Route::apiResource('permissions', PermissionController::class);
+Route::middleware('auth:sanctum')->group(function () {
+    
+    Route::post('auth/me', [AuthController::class, 'me']);
 
-Route::post('subsidiaries/{id}/inventory', [SubsidiaryController::class, 'addItems']);
-Route::get('subsidiaries/{id}/inventory', [SubsidiaryController::class, 'inventory']);
-Route::delete('subsidiaries/{id}/inventory/{itemId}', [SubsidiaryController::class, 'removeItem']);
+    Route::apiResource('employees', EmployeeController::class);
+    Route::apiResource('subsidiaries', SubsidiaryController::class);
+    Route::apiResource('items', ItemController::class);
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('permissions', PermissionController::class);
 
-Route::get('responsives', [ResponsiveLetterController::class, 'index']);
+    Route::post('subsidiaries/{id}/inventory', [SubsidiaryController::class, 'addItems']);
+    Route::get('subsidiaries/{id}/inventory', [SubsidiaryController::class, 'inventory']);
+    Route::delete('subsidiaries/{id}/inventory/{itemId}', [SubsidiaryController::class, 'removeItem']);
 
-Route::get('employees/{id}/subsidiaries', [EmployeeController::class, 'subsidiaries']);
+    Route::get('responsives', [ResponsiveLetterController::class, 'index']);
 
-Route::post('employees/{id}/responsives', [EmployeeController::class, 'generateResponsive']);
+    Route::get('employees/{id}/subsidiaries', [EmployeeController::class, 'subsidiaries']);
 
-Route::post('transfers', [TransferController::class, 'store']);
-Route::get('transfers', [TransferController::class, 'index']);
+    Route::post('employees/{id}/responsives', [EmployeeController::class, 'generateResponsive']);
 
-Route::get('users/{id}/permissions', [UserController::class, 'permissions']);
-Route::post('users/{id}/permissions', [UserController::class, 'assignPermissions']);
+    Route::post('transfers', [TransferController::class, 'store']);
+    Route::get('transfers', [TransferController::class, 'index']);
+
+    Route::get('users/{id}/permissions', [UserController::class, 'permissions']);
+    Route::post('users/{id}/permissions', [UserController::class, 'assignPermissions']);
+});
