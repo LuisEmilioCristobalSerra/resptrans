@@ -14,9 +14,13 @@ class UserController extends Controller
         return JsonResponse::sendResponse(User::all());
     }
 
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
-        return JsonResponse::sendResponse(User::create($request->only(['name'])));
+        return JsonResponse::sendResponse(User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]));
     }
 
     public function show($id)
@@ -32,9 +36,10 @@ class UserController extends Controller
     public function assignPermissions(Request $request, $id)
     {
         $user = User::find($id);
-        foreach ($request->permissionIds as $permissionId) {
+        foreach ($request->permission_ids as $permissionId) {
             $permission = Permission::find($permissionId);
-            $user->givePermissionTo($permission);
+            if (!$user->hasPermissionTo($permission))
+                $user->givePermissionTo($permission);
         }
         return response()->noContent();
     }
