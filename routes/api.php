@@ -4,9 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResponsiveLetterController;
 use App\Http\Controllers\SubsidiaryController;
 use App\Http\Controllers\TransferController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,8 @@ use App\Http\Controllers\TransferController;
 Route::apiResource('employees', EmployeeController::class);
 Route::apiResource('subsidiaries', SubsidiaryController::class);
 Route::apiResource('items', ItemController::class);
+Route::apiResource('users', UserController::class);
+Route::apiResource('permissions', PermissionController::class);
 
 Route::post('subsidiaries/{id}/inventory', [SubsidiaryController::class, 'addItems']);
 Route::get('subsidiaries/{id}/inventory', [SubsidiaryController::class, 'inventory']);
@@ -39,3 +43,6 @@ Route::post('employees/{id}/responsives', [EmployeeController::class, 'generateR
 
 Route::post('transfers', [TransferController::class, 'store']);
 Route::get('transfers', [TransferController::class, 'index']);
+
+Route::get('users/{id}/permissions', [UserController::class, 'permissions']);
+Route::post('users/{id}/permissions', [UserController::class, 'assignPermissions']);
