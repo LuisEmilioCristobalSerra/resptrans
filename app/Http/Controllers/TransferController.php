@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Transfer;
 use Illuminate\Http\Request;
 use App\Helpers\JsonResponse;
+use App\Http\Resources\TransferResource;
 use App\Models\InformationTransferDetail;
 
 class TransferController extends Controller
 {
     public function index()
     {
-        // $rows = Transfer::query()->with(['subsidiaryEmployeePivot.subsidiary', 'subsidiaryEmployeePivot.employee', 'user', 'details.inventoryItemPivot.item', 'details.items'])->get();
-        // return JsonResponse::sendResponse(ResponsiveLetterResource::collection($rows));
+        $rows = Transfer::query()->with(['user', 'origin', 'target', 'details.inventoryItemPivot.item', 'details.items'])->get();
+        return JsonResponse::sendResponse(TransferResource::collection($rows));
     }
 
     public function store(Request $request)

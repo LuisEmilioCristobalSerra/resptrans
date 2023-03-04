@@ -22,12 +22,12 @@ class Transfer extends Model
 
     public function origin()
     {
-        return $this->belongsTo(Subsidiary::class);
+        return $this->belongsTo(Subsidiary::class, 'origin_id');
     }
 
     public function target()
     {
-        return $this->belongsTo(Subsidiary::class);
+        return $this->belongsTo(Subsidiary::class, 'target_id');
     }
 
     public function details()

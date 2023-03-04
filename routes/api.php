@@ -38,3 +38,4 @@ Route::get('employees/{id}/subsidiaries', [EmployeeController::class, 'subsidiar
 Route::post('employees/{id}/responsives', [EmployeeController::class, 'generateResponsive']);
 
 Route::post('transfers', [TransferController::class, 'store']);
+Route::get('transfers', [TransferController::class, 'index']);
