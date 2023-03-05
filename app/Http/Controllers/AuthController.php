@@ -16,7 +16,7 @@ class AuthController extends Controller
             $token = $user->createToken('token-name')->plainTextToken;
             return JsonResponse::sendResponse([
                 'token' => $token,
-                'user' => $user->load('roles', 'permissions'),
+                'user' => $user->load('roles.permissions'),
             ]);
         }
 
@@ -25,6 +25,6 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        return JsonResponse::sendResponse($request->user()->load('roles', 'permissions'));
+        return JsonResponse::sendResponse($request->user()->load('roles.permissions'));
     }
 }
