@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transfer;
 use Illuminate\Http\Request;
 use App\Helpers\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\TransferResource;
 use App\Models\InformationTransferDetail;
 
@@ -19,7 +20,7 @@ class TransferController extends Controller
     public function store(Request $request)
     {
         $transfer = Transfer::create([
-            'user_id' => 1,
+            'user_id' => Auth::user()->id,
             'origin_id' => $request->origin_id,
             'target_id' => $request->target_id,
         ]);

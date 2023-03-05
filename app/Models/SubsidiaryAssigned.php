@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SubsidiaryAssigned extends Model
 {
@@ -13,7 +14,7 @@ class SubsidiaryAssigned extends Model
     public function createResponsive()
     {
         return ResponsiveLetter::create([
-            'user_id' => 1,
+            'user_id' => Auth::user()->id,
             'assign_subsidiary_id' => $this->id,
         ]);
     }

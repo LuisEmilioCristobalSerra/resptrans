@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Helpers\JsonResponse;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\ResponsiveLetterDetailItem;
-use Illuminate\Support\Facades\Log;
 
 class EmployeeController extends Controller
 {
