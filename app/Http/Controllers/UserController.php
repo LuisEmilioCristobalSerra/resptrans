@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Helpers\JsonResponse;
 use App\Models\User;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -16,11 +17,13 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        return JsonResponse::sendResponse(User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-        ]));
+        ]);
+        $user->assignRole(Role::find($request->rol_id));
+        return JsonResponse::sendResponse($user);
     }
 
     public function show($id)

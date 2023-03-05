@@ -32,6 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('items', ItemController::class);
     Route::apiResource('users', UserController::class);
     Route::apiResource('permissions', PermissionController::class);
+    
+    Route::get('roles', [PermissionController::class, 'roles']);
 
     Route::post('subsidiaries/{id}/inventory', [SubsidiaryController::class, 'addItems']);
     Route::get('subsidiaries/{id}/inventory', [SubsidiaryController::class, 'inventory']);

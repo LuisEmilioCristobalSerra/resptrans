@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class PermissionController extends Controller
 {
     public function index(Request $request)
     {
         return JsonResponse::sendResponse(Permission::query()->when($request->search, function (Builder $query, $search) {
-            Log::info($search);
             return $query->where('name', 'like', "%{$search}%");
         })->get());
     }
@@ -31,5 +31,12 @@ class PermissionController extends Controller
     public function destroy($id)
     {
         return JsonResponse::sendResponse(Permission::find($id)->delete());
+    }
+
+    public function roles(Request $request)
+    {
+        return JsonResponse::sendResponse(Role::query()->when($request->search, function (Builder $query, $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        })->get());
     }
 }
