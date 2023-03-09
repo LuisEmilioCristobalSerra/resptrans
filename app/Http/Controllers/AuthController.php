@@ -25,6 +25,6 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        return JsonResponse::sendResponse($request->user()->load('roles.permissions'));
+        return JsonResponse::sendResponse($request->user()->load('roles.permissions', 'permissions'));
     }
 }
