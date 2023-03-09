@@ -13,7 +13,7 @@ class TransferController extends Controller
 {
     public function index()
     {
-        $rows = Transfer::query()->with(['user', 'origin', 'target', 'details.inventoryItemPivot.item', 'details.items'])->get();
+        $rows = Transfer::query()->with(['user', 'origin', 'target', 'details.inventoryItemPivot.item', 'details.items', 'employee'])->get();
         return JsonResponse::sendResponse(TransferResource::collection($rows));
     }
 
@@ -23,6 +23,7 @@ class TransferController extends Controller
             'user_id' => Auth::user()->id,
             'origin_id' => $request->origin_id,
             'target_id' => $request->target_id,
+            'employee_id' => $request->employee_id,
         ]);
         foreach ($request->details as $requestDetail) {
             $detail = $transfer->details()->create([

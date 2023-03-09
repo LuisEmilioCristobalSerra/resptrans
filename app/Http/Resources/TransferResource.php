@@ -36,6 +36,7 @@ class TransferResource extends JsonResource
                 "district" => $this->target->district,
                 "postal_code" => $this->target->postal_code,
             ],
+            "employee" => $this->whenLoaded('employee'),
             "details" => ResponsiveLetterDetailResource::collection($this->details),
         ];
     }

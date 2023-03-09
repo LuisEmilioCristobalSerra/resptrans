@@ -21,15 +21,7 @@ class ResponsiveLetterResource extends JsonResource
                 "district" => $this->subsidiaryEmployeePivot->subsidiary->district,
                 "postal_code" => $this->subsidiaryEmployeePivot->subsidiary->postal_code,
             ],
-            "employee" => [
-                "id" => $this->subsidiaryEmployeePivot->employee->id,
-                "name" => $this->subsidiaryEmployeePivot->employee->name,
-                "paternal_surname" => $this->subsidiaryEmployeePivot->employee->paternal_surname,
-                "maternal_surname" => $this->subsidiaryEmployeePivot->employee->maternal_surname,
-                "email" => $this->subsidiaryEmployeePivot->employee->email,
-                "phone" => $this->subsidiaryEmployeePivot->employee->phone,
-                "workstation" => $this->subsidiaryEmployeePivot->employee->workstation,
-            ],
+            "employee" => new SubsidiaryEmployeeResource($this->whenLoaded('subsidiaryEmployeePivot')),
             "details" => ResponsiveLetterDetailResource::collection($this->details),
         ];
     }

@@ -13,6 +13,7 @@ class Transfer extends Model
         'user_id',
         'origin_id',
         'target_id',
+        'employee_id',
     ];
 
     public function user()
@@ -33,5 +34,10 @@ class Transfer extends Model
     public function details()
     {
         return $this->hasMany(InformationTransfer::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 }
