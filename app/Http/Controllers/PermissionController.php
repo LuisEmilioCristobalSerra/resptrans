@@ -20,7 +20,7 @@ class PermissionController extends Controller
 
     public function store(Request $request)
     {
-        return JsonResponse::sendResponse(Permission::create($request->only(['name'])));
+        return JsonResponse::sendResponse(Permission::create(['guard_name' => 'web', 'name' => $request->name]));
     }
 
     public function show($id)
